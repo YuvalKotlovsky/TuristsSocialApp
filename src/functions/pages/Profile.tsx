@@ -11,7 +11,7 @@ const mockPosts = [
     id: 1,
     image:
       "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=400&h=300&fit=crop",
-    title: "Paris Sunset",
+    title: "Paris Sunsets",
     location: "Paris, France",
   },
   {
