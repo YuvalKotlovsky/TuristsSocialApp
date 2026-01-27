@@ -6,14 +6,14 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import { MapPin, ArrowLeft, Heart, Send } from "lucide-react";
-import type { PostDetails, CommentView } from "@/types";
 import { addComment, getPostById, toggleLike } from "@/services/posts.service";
+import type { Comment, Post } from "@/types";
 
 export default function Post() {
   const navigate = useNavigate();
   const { postId } = useParams<{ postId: string }>();
 
-  const [post, setPost] = useState<PostDetails | null>(null);
+  const [post, setPost] = useState<Post | null>(null);
   const [loading, setLoading] = useState(true);
 
   const [newComment, setNewComment] = useState("");
@@ -31,7 +31,7 @@ export default function Post() {
     })();
   }, [postId]);
 
-  const comments = useMemo<CommentView[]>(
+  const comments = useMemo<Comment[]>(
     () => post?.comments ?? [],
     [post?.comments]
   );
@@ -48,7 +48,6 @@ export default function Post() {
   const handleLike = async () => {
     if (!post) return;
 
-    // optimistic
     setPost((prev) =>
       !prev
         ? prev
@@ -65,7 +64,6 @@ export default function Post() {
       const updated = await toggleLike(post.id);
       if (updated) setPost(updated);
     } catch {
-      // rollback by refetch
       const fresh = await getPostById(post.id);
       setPost(fresh);
     }
@@ -78,8 +76,7 @@ export default function Post() {
 
     setIsSubmitting(true);
 
-    // optimistic local add (so UI feels instant)
-    const optimistic: CommentView = {
+    const optimistic: Comment = {
       id: `tmp-${Date.now()}`,
       postId: post.id,
       content: text,
@@ -103,7 +100,6 @@ export default function Post() {
       const updated = await addComment(post.id, text);
       if (updated) setPost(updated);
     } catch {
-      // rollback by refetch
       const fresh = await getPostById(post.id);
       setPost(fresh);
     } finally {

@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PostsFeed from "../components/PostFeed";
-import type { PostPreview } from "@/types";
 import { getFeed, toggleLike } from "@/services/posts.service";
+import type { Post } from "@/types";
 
 export default function Home() {
   const navigate = useNavigate();
-  const [posts, setPosts] = useState<PostPreview[]>([]);
+  const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -25,7 +25,6 @@ export default function Home() {
   };
 
   const handleLike = async (postId: string) => {
-    // Optimistic update (UI feels fast)
     setPosts((prev) =>
       prev.map((p) =>
         p.id !== postId
@@ -37,12 +36,9 @@ export default function Home() {
             }
       )
     );
-
-    // TEMP: mock service. Later this will be an API call.
     const updated = await toggleLike(postId);
     if (!updated) return;
 
-    // Sync with server response (prevents drift)
     setPosts((prev) =>
       prev.map((p) =>
         p.id !== postId

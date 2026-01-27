@@ -2,10 +2,10 @@ import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { MapPin, Heart, MessageCircle } from "lucide-react";
-import type { PostPreview } from "@/types";
+import type { Post } from "@/types";
 
 interface PostsFeedProps {
-  posts: PostPreview[];
+  posts: Post[];
   onLike: (postId: string) => void;
   onOpenPost: (postId: string) => void;
 }

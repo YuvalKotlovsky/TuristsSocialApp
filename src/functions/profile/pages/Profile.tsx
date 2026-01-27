@@ -3,11 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Camera } from "lucide-react";
 import PostsFeed from "@/functions/posts/components/PostFeed";
-import type { PostPreview, UserDTO } from "@/types";
 import { getFeed } from "@/services/posts.service";
 import { useNavigate } from "react-router-dom";
+import type { Post, User } from "@/types";
 
-const mockUser: UserDTO = {
+const mockUser: User = {
   id: "me",
   fullName: "Yuval Kot",
   avatar:
@@ -18,20 +18,18 @@ export default function Profile() {
   const navigate = useNavigate();
 
   const [isEditing, setIsEditing] = useState(false);
-  const [user, setUser] = useState<UserDTO>(mockUser);
+  const [user, setUser] = useState<User>(mockUser);
   const [tempName, setTempName] = useState(mockUser.fullName);
   const [tempAvatar, setTempAvatar] = useState<string | undefined>(
     mockUser.avatar
   );
 
-  const [posts, setPosts] = useState<PostPreview[]>([]);
+  const [posts, setPosts] = useState<Post[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     void (async () => {
       const feed = await getFeed();
-
-      // TEMP: "my posts" filtering by author id
       setPosts(feed.filter((p) => p.createdBy.id === mockUser.id));
     })();
   }, []);
@@ -46,7 +44,6 @@ export default function Profile() {
 
   const handleEditToggle = () => {
     if (isEditing) {
-      // Save
       setUser((prev) => ({
         ...prev,
         fullName: tempName.trim() || prev.fullName,
@@ -56,7 +53,6 @@ export default function Profile() {
       return;
     }
 
-    // Enter edit mode
     setTempName(user.fullName);
     setTempAvatar(user.avatar);
     setIsEditing(true);
@@ -97,7 +93,6 @@ export default function Profile() {
 
   return (
     <div className="min-h-screen pb-20 bg-background w-full max-w-3xl mx-auto">
-      {/* Header */}
       <header className="bg-card border-b border-border">
         <div className="px-4 py-6 flex items-center justify-between">
           <h1 className="text-xl font-semibold text-foreground">Profile</h1>
@@ -113,7 +108,6 @@ export default function Profile() {
       </header>
 
       <main className="w-full px-4 py-6">
-        {/* Profile Section */}
         <div className="flex flex-col items-center mb-8">
           <div className="relative mb-4">
             <Avatar
