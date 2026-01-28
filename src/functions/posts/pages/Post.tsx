@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { MapPin, ArrowLeft, Heart, Send } from "lucide-react";
 import { addComment, getPostById, toggleLike } from "@/services/posts.service";
 import type { Comment, Post } from "@/types";
+import { getInitials } from "@/lib/utils";
 
 export default function Post() {
   const navigate = useNavigate();
@@ -35,15 +36,6 @@ export default function Post() {
     () => post?.comments ?? [],
     [post?.comments]
   );
-
-  const getInitials = (fullName: string) =>
-    fullName
-      .split(" ")
-      .filter(Boolean)
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase()
-      .slice(0, 2);
 
   const handleLike = async () => {
     if (!post) return;

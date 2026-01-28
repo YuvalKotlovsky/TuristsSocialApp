@@ -6,6 +6,7 @@ import PostsFeed from "@/functions/posts/components/PostFeed";
 import { getFeed } from "@/services/posts.service";
 import { useNavigate } from "react-router-dom";
 import type { Post, User } from "@/types";
+import { getInitials } from "@/lib/utils";
 
 const mockUser: User = {
   id: "me",
@@ -33,14 +34,6 @@ export default function Profile() {
       setPosts(feed.filter((p) => p.createdBy.id === mockUser.id));
     })();
   }, []);
-
-  const getInitials = (fullName: string) =>
-    fullName
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase()
-      .slice(0, 2);
 
   const handleEditToggle = () => {
     if (isEditing) {

@@ -3,6 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { MapPin, Heart, MessageCircle } from "lucide-react";
 import type { Post } from "@/types";
+import { getInitials } from "@/lib/utils";
 
 interface PostsFeedProps {
   posts: Post[];
@@ -15,14 +16,6 @@ export default function PostsFeed({
   onLike,
   onOpenPost,
 }: PostsFeedProps) {
-  const getInitials = (fullName: string) =>
-    fullName
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase()
-      .slice(0, 2);
-
   return (
     <div className="flex flex-col gap-6">
       {posts.map((post) => (
