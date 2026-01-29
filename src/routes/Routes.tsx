@@ -6,6 +6,7 @@ import Post from "@/functions/posts/pages/Post";
 import Profile from "@/functions/profile/pages/Profile";
 import Register from "@/functions/auth/pages/Register";
 import { Routes, Route, Navigate } from "react-router-dom";
+import ProtectedRoute from "@/functions/layout/ProtectedRoute";
 
 function AppRoutes() {
   return (
@@ -13,14 +14,15 @@ function AppRoutes() {
       <Route path="/" element={<Navigate to="/home" replace />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-
-      <Route element={<AppLayout />}>
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/create" element={<Create />} />
-        <Route path="/post/:postId" element={<Post />} />
+      <Route element={<ProtectedRoute />}>
+        <Route element={<AppLayout />}>
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/create" element={<Create />} />
+          <Route path="/post/:postId" element={<Post />} />
+        </Route>
+        <Route path="*" element={<Navigate to="/home" replace />} />
       </Route>
-      <Route path="*" element={<Navigate to="/home" replace />} />
     </Routes>
   );
 }
