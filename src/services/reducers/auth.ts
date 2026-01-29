@@ -11,7 +11,16 @@ const initialState: IAuthState = {
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    login(state) {
+      state.isUserLoggedIn = true;
+    },
+    logout(state) {
+      state.isUserLoggedIn = false;
+    },
+  },
 });
+
+export const { login, logout } = authSlice.actions;
 
 export default authSlice.reducer;
