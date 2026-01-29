@@ -1,12 +1,13 @@
 import { Outlet } from "react-router-dom";
-import { Footer } from "./Footer";
+import { Footer as HeaderNav } from "@/functions/layout/Footer";
 
-const AppLayout = () => {
+export default function AppLayout() {
   return (
-    <div>
-      <Footer /> <Outlet />
-    </div>
+    <>
+      <HeaderNav />
+      <main className="pt-16">
+        <Outlet />
+      </main>
+    </>
   );
-};
-
-export default AppLayout;
+}
