@@ -3,7 +3,11 @@ import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAppDispatch } from "@/services/hooks";
+import { login } from "@/services/reducers/auth";
+import { ISLOGGEDIN } from "@/constants/app";
+import { ROUTES } from "@/constants/routes";
 
 // Placeholder login function
 async function onLogin(email: string, password: string): Promise<void> {
@@ -25,6 +29,8 @@ export default function Login() {
   const [errors, setErrors] = useState<{ email?: string; password?: string }>(
     {}
   );
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const validateForm = (): boolean => {
     const newErrors: { email?: string; password?: string } = {};
@@ -53,6 +59,9 @@ export default function Login() {
     setIsLoading(true);
     try {
       await onLogin(email, password);
+      dispatch(login());
+      localStorage.setItem(ISLOGGEDIN, "true");
+      navigate(ROUTES.HOME, { replace: true });
     } catch (error) {
       console.error("Login error:", error);
     } finally {
