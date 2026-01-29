@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import PostsFeed from "../components/PostFeed";
 import { getFeed, toggleLike } from "@/services/posts.service";
 import type { Post } from "@/types";
+import { ROUTES } from "@/constants/routes";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ export default function Home() {
   }, []);
 
   const handleOpenPost = (postId: string) => {
-    navigate(`/post/${postId}`);
+    navigate(ROUTES.VIEW_POST(postId));
   };
 
   const handleLike = async (postId: string) => {

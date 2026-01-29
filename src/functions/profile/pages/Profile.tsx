@@ -7,6 +7,7 @@ import { getFeed } from "@/services/posts.service";
 import { useNavigate } from "react-router-dom";
 import type { Post, User } from "@/types";
 import { getInitials } from "@/lib/utils";
+import { ROUTES } from "@/constants/routes";
 
 const mockUser: User = {
   id: "me",
@@ -68,7 +69,7 @@ export default function Profile() {
     setTempAvatar(url);
   };
 
-  const handleOpenPost = (postId: string) => navigate(`/post/${postId}`);
+  const handleOpenPost = (postId: string) => navigate(ROUTES.VIEW_POST(postId));
 
   const handleLike = (postId: string) => {
     setPosts((prev) =>
