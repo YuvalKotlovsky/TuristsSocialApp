@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
-import { MapPin, ArrowLeft, Heart, Send } from "lucide-react";
+import { MapPin, ArrowLeft, Heart, Send, Pencil } from "lucide-react";
 import { addComment, getPostById, toggleLike } from "@/services/posts.service";
 import type { Comment, Post } from "@/types";
 import { getInitials } from "@/lib/utils";
@@ -139,6 +139,17 @@ export default function Post() {
           <h1 className="text-lg font-semibold text-foreground truncate">
             Post
           </h1>
+          {/* Edit -> EditPost page */}
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => navigate(`/post/${postId}/edit`)}
+            disabled={!postId}
+            className="shrink-0"
+          >
+            <Pencil className="size-4 mr-2" />
+            Edit
+          </Button>
         </div>
       </header>
 
