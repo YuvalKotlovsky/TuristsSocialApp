@@ -9,6 +9,7 @@ import { MapPin, ArrowLeft, Heart, Send, Pencil } from "lucide-react";
 import { addComment, getPostById, toggleLike } from "@/services/posts.service";
 import type { Comment, Post } from "@/types";
 import { getInitials } from "@/lib/utils";
+import { ROUTES } from "@/constants/routes";
 
 export default function Post() {
   const navigate = useNavigate();
@@ -143,7 +144,7 @@ export default function Post() {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => navigate(`/post/${postId}/edit`)}
+            onClick={() => navigate(ROUTES.EDIT_POST(post.id))}
             disabled={!postId}
             className="shrink-0"
           >
