@@ -126,3 +126,58 @@ export async function addComment(
   ];
   return clone(next);
 }
+type UpdatePostInput = {
+  content: string;
+  location?: string;
+  image?: string;
+};
+
+export async function updatePost(
+  postId: string,
+  data: UpdatePostInput
+): Promise<Post | null> {
+  const idx = MOCK_POSTS.findIndex((p) => p.id === postId);
+  if (idx === -1) return null;
+
+  const prev = MOCK_POSTS[idx];
+
+  const next: Post = {
+    ...prev,
+    content: data.content.trim(),
+    location: data.location?.trim() || undefined,
+    image: data.image || undefined,
+  };
+
+  MOCK_POSTS = [
+    ...MOCK_POSTS.slice(0, idx),
+    next,
+    ...MOCK_POSTS.slice(idx + 1),
+  ];
+
+  return clone(next);
+}
+type CreatePostInput = {
+  content: string;
+  location?: string;
+  image?: string;
+};
+
+export async function createPost(data: CreatePostInput): Promise<Post> {
+  const now = new Date().toISOString();
+
+  const newPost: Post = {
+    id: `${Date.now()}`,
+    content: data.content.trim(),
+    location: data.location?.trim() || undefined,
+    image: data.image || undefined,
+    createdBy: { id: "me", fullName: "You" },
+    createdAt: now,
+    likesCount: 0,
+    commentsCount: 0,
+    isLikedByMe: false,
+    comments: [],
+  };
+
+  MOCK_POSTS = [newPost, ...MOCK_POSTS];
+  return clone(newPost);
+}
